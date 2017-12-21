@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+  <string><%= @service_name %></string>
+  <key>EnvironmentVariables</key>
+   <dict>
+     <key>HOME</key>
+     <string><%= @new_resource.remote_fs %></string>
+     <key>JENKINS_HOME</key>
+     <string><%= @new_resource.remote_fs %></string>
+   </dict>
+    <key>ProgramArguments</key>
+    <array>
+      <string><%= @java_bin %></string>
+    <%- if @new_resource.jvm_options -%>
+      <string><%= @new_resource.jvm_options %></string>
+    <%- end -%>
+      <string>-jar</string>
+      <string><%= @slave_jar %></string>
+    <%- if @jnlp_secret -%>
+      <string>-secret</string>
+      <string><%= @jnlp_secret %></string>
+    <%- end -%>
+      <string>-jnlpUrl</string>
+      <string><%= @jnlp_url %></string>
+    </array>
+    <key>StandardOutPath</key>
+    <string>/var/log/jenkins-slave-out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/var/log/jenkins-slave-error.log</string>
+    <key>Debug</key>
+    <true/>
+    <key>UserName</key>
+    <string><%= @new_resource.user %></string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+  </dict>
+</plist>
