@@ -12,3 +12,5 @@ node.override[:git].deep_merge!(node[:jenkins_ecosystem][:git])
 node.override[:jenkins][:master][:home] = node[:jenkins_ecosystem][:home]
 
 node.override[:jenkins][:master][:jvm_options] = '-Dhudson.model.DirectoryBrowserSupport.CSP= -Xmx256m'
+
+node.override[:jenkins][:master][:version] = '2.50-1.1'
