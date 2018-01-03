@@ -3,7 +3,7 @@
 # Recipe:: default
 #
 
-include_recipe 'jenkins_ecosystem::credentials'
+#include_recipe 'jenkins_ecosystem::credentials'
 
 include_recipe 'jenkins_ecosystem::base'
 include_recipe 'jenkins_ecosystem::apache2'
@@ -21,6 +21,7 @@ end
 log 'first run configuration...' do
   notifies :create, 'cookbook_file[lay down server config for first run]', :immediately
   notifies :create, 'cookbook_file[lay down admin config for first run]', :immediately
+  notifies :create, 'cookbook_file[lay down cli config for first run]', :immediately
   notifies :create, 'file[lay down install flag file]', :immediately
 
   notifies :restart, 'service[jenkins]', :immediately
@@ -44,6 +45,14 @@ cookbook_file 'lay down admin config for first run' do
   action :nothing
 end
 
+cookbook_file 'lay down cli config for first run' do
+  path "#{node[:jenkins_ecosystem][:home]}/jenkins.CLI.xml"
+  source 'jenkins.CLI.xml'
+  owner 'jenkins'
+  group 'jenkins'
+  action :nothing
+end
+
 file 'lay down install flag file' do
   path "#{node[:jenkins_ecosystem][:home]}/jenkins.install.InstallUtil.lastExecVersion"
   owner 'jenkins'
@@ -55,9 +64,3 @@ end
 jenkins_command 'reload-configuration' do
   action :nothing
 end
-
-include_recipe 'jenkins_ecosystem::plugins'
-
-node[:jenkins_ecosystem][:customization][:master][:recipes].each{|recipe|
-  include_recipe recipe
-}

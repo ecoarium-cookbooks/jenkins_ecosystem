@@ -4,6 +4,7 @@
 #
 #
 
+default[:jenkins_ecosystem][:version] = '2.50-1.1'
 default[:jenkins_ecosystem][:home] = '/var/lib/jenkins'
 
 default[:jenkins_ecosystem][:slave][:name] = nil
@@ -17,7 +18,6 @@ default[:jenkins_ecosystem][:storage_disk][:device]            = '/dev/sdb'
 default[:jenkins_ecosystem][:storage_disk][:fstype]            = :btrfs
 default[:jenkins_ecosystem][:storage_disk][:size]              = 250
 
-default[:jenkins_ecosystem][:customization][:master][:recipes]    = []
 default[:jenkins_ecosystem][:customization][:slave][:recipes]     = []
 default[:jenkins_ecosystem][:customization][:slave][:labels]      = ['ecosystem']
 default[:jenkins_ecosystem][:customization][:slave][:executors]   = 5
