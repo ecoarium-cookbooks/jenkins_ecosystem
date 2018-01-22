@@ -34,10 +34,6 @@ jenkins_jnlp_slave node[:jenkins_ecosystem][:slave][:name] do
   java_path   "/usr/java/latest/bin/java"
 end
 
-node[:jenkins_ecosystem][:customization][:slave][:recipes].each{|recipe|
-  include_recipe recipe
-}
-
 jenkins_slave node[:jenkins_ecosystem][:slave][:name] do
   action :connect
 end

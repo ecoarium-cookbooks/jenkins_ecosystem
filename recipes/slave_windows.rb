@@ -80,10 +80,6 @@ jenkins_windows_slave node[:jenkins_ecosystem][:slave][:name] do
   pre_run_cmds ['set MSYS=winsymlinks:nativestrict']
 end
 
-node[:jenkins_ecosystem][:customization][:slave][:recipes].each{|recipe|
-  include_recipe recipe
-}
-
 jenkins_slave node[:jenkins_ecosystem][:slave][:name] do
   action :connect
 end
