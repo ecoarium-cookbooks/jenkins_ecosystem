@@ -3,8 +3,6 @@
 # Recipe:: default
 #
 
-#include_recipe 'jenkins_ecosystem::credentials'
-
 include_recipe 'jenkins_ecosystem::base'
 include_recipe 'jenkins_ecosystem::apache2'
 

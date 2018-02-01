@@ -6,18 +6,21 @@
 if in_ec2?()
   aws = data_bag_item('aws', 'api')
 
-  elastic_ip = node[:jenkins_ecosystem][:ip]
+  if node[:jenkins_ecosystem][:slave][:name].nil?
 
-  if elastic_ip.nil?
-    server = data_bag_item(node[:jenkins_ecosystem][:server][:data_bag], node[:jenkins_ecosystem][:server][:data_bag_item])
-    elastic_ip = server[:ip]
-  end
+    elastic_ip = node[:jenkins_ecosystem][:ip]
 
-  ec2_elastic_ip 'associate_jenkins_elastic_ip' do
-    aws_access_key aws[:key]
-    aws_secret_access_key aws[:secret]
-    ip elastic_ip
-    action :associate
+    if elastic_ip.nil?
+      server = data_bag_item(node[:jenkins_ecosystem][:server][:data_bag], node[:jenkins_ecosystem][:server][:data_bag_item])
+      elastic_ip = server[:ip]
+    end
+
+    ec2_elastic_ip 'associate_jenkins_elastic_ip' do
+      aws_access_key aws[:key]
+      aws_secret_access_key aws[:secret]
+      ip elastic_ip
+      action :associate
+    end
   end
 
   ec2_ebs_volume "#{node[:jenkins_ecosystem][:storage_disk][:mount_path]}-#{node[:jenkins_ecosystem][:storage_disk][:volume_mount_point]}-#{node[:jenkins_ecosystem][:storage_disk][:device]}" do

@@ -3,9 +3,6 @@
 # Recipe:: slave_centos
 #
 
-include_recipe 'jenkins_ecosystem::credentials'
-
-
 if node[:jenkins_ecosystem][:slave][:name].nil?
   Chef::Application.fatal!('the slave name attribute has not been set
 a slave name is required, please set the attribute:
@@ -14,8 +11,6 @@ a slave name is required, please set the attribute:
 
 ')
 end
-
-include_recipe 'jenkins_ecosystem::java_attributes'
 
 node.override['jenkins']['java'] = "#{node[:java][:java_home]}/bin/java"
 
@@ -31,7 +26,7 @@ jenkins_jnlp_slave node[:jenkins_ecosystem][:slave][:name] do
   labels      node[:jenkins_ecosystem][:customization][:slave][:labels]
   executors   node[:jenkins_ecosystem][:customization][:slave][:executors]
   usage_mode  node[:jenkins_ecosystem][:customization][:slave][:usage_mode]
-  java_path   "/usr/java/latest/bin/java"
+  java_path   "#{node[:java][:java_home]}/bin/java"
 end
 
 jenkins_slave node[:jenkins_ecosystem][:slave][:name] do
